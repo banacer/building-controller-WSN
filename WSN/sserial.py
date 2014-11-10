@@ -5,7 +5,7 @@ import sys
 os.system('cls')
 os.system('clear')
 
-ser = serial.Serial('/dev/ttyUSB0', 9600)
+ser = serial.Serial('COM11', 9600)
 while True:
     try:
         '''print ser.name'''
