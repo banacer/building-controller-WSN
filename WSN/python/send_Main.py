@@ -14,10 +14,15 @@ if __name__ == "__main__":
     while True:
         try:
             sleep(5)
-            sent = xbee.Strng(data = 'Hello Krishna Lab 221', 
+            sent1 = xbee.sendInt(data = {50}, 
+                                 addr = 0x2191, 
+                                 options = 0x01, 
+                                 frameid = 0x00)
+                                 
+            '''sent = xbee.Strng(data = '100', 
                               addr = 0x2191, 
                               options = 0x01, 
-                              frameid = 0x00)
+                              frameid = 0x00)'''
             xbee.rx()
         except KeyboardInterrupt:
             xbee.close('port closed')

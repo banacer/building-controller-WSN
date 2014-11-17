@@ -67,7 +67,14 @@ class send_Xbee:
          lenData = rxData[2]
          if(rxData[0] == 126):
              validData = rxData[7:lenData]
-         print 'Rx Message: ',validData, '\n \n \n \n \n'
+         print 'Rx Message: ',validData, '\n \n \n '
+         
+         
+    def sendInt(self, data, addr, options, frameid):
+        self.data = data
+        '''hexData = format(data,  '#02X')
+        print 'hexData: ', hexData'''
+        self.send(data, addr, options, frameid)
     
     
     def close(self, arg):
