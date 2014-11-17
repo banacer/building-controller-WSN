@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 12 10:05:47 2014
+
 @author: krish
 """
 
@@ -8,10 +9,17 @@ import serial
 
 
 class send_Xbee:
+    '''receiveBuff = bytearray()'''
+    
     def __init__(self, serialport, baudrate = 9600):
         self.serialport = serialport
         self.set_serial = serial.Serial(port = serialport, baudrate = baudrate)
         print self.serialport
+        if (self.set_serial.isOpen() == True):
+            self.set_serial.close()
+        else:
+            self.set_serial.open()
+        self.set_serial.open()
         
     def Strng(self, data, addr, options, frameid):
         self.data = data.encode('hex')
@@ -42,6 +50,29 @@ class send_Xbee:
     def format(self,data)   :
         return " ".join("{:02x}".format(b) for b in data)
         
-    def close(self):
+        
+    
+    def rx(self):
+        readNumChar = self.set_serial.inWaiting()
+        rxData = bytearray(self.set_serial.read(readNumChar))
+        lenrxData = len(rxData)
+        
+        if (lenrxData > 0):
+            self.checkValid(rxData, lenrxData)
+        
+    
+    def checkValid (self, rxData, lenrxData):
+         self.rxData = rxData
+         self.lenChar = lenrxData
+         lenData = rxData[2]
+         if(rxData[0] == 126):
+             validData = rxData[7:lenData]
+         print 'Rx Message: ',validData, '\n \n \n \n \n'
+    
+    
+    def close(self, arg):
+        self.arg = arg
+        print arg
         return self.set_serial.close()
+        
         
