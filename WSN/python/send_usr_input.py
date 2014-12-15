@@ -9,7 +9,7 @@ while True:
 	if val == -1:
 		sys.exit()
 	else:
-		xbee.sendInt(data = val,addr = 0x2191, options = 0x01,frameid = 0x00)
+		xbee.sendInt(data = str(val),addr = 0x2191, options = 0x01,frameid = 0x00)
 	#xbee.rx()
 xbee.close()
 
