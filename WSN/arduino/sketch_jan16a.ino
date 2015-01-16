@@ -60,7 +60,7 @@ void setup()
 
 void loop()
 {  
-	Pin = pingPin[inc % 3];
+	Pin = pingPin[inc];
 	duration = getDuration(Pin);
 	
 	Serial.println(duration);
@@ -69,7 +69,7 @@ void loop()
         payload[2] = duration & 0xff; 
 	xbee.send(tx);
 	inc++;
-
+	inc = inc % 3;
 	delay(1);
 
 }
