@@ -1,10 +1,25 @@
-int pingPin[3] = {3, 5, 7};
-int inc = 0, Pin;
+#include <XBee.h>
 
+int pingPin[3] = {3, 5, 7};
+short inc = 0, Pin;
+XBee xbee = XBee();
+// allocate three bytes for to hold a 10-bit analog reading
+uint8_t payload[3];
+
+// with Series 1 you can use either 16-bit or 64-bit addressing
+
+// 16-bit addressing: Enter address of remote XBee, typically the coordinator
+Tx16Request tx = Tx16Request(0x2210, payload, sizeof(payload));
+
+
+TxStatusResponse txStatus = TxStatusResponse();
+
+int statusLed = 11;
+int errorLed = 12;
 
 short temp = 0, lowest, tempInch = 0, refVal = 11;
 float inches, cm;
-int duration = 0;
+short duration = 0;
 
 
 float time2cm(float duration)
@@ -21,7 +36,7 @@ float time2inch(short duration)
 }
 
 
-int getDuration(int Pin)
+short getDuration(short Pin)
 {
 	pinMode(Pin, OUTPUT);
 	digitalWrite(Pin, LOW);
@@ -39,28 +54,22 @@ int getDuration(int Pin)
 	
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(9600);	
+	xbee.setSerial(Serial);
 }
 
 void loop()
 {  
 	Pin = pingPin[inc % 3];
 	duration = getDuration(Pin);
-        Serial.print("Pin = ");
-        Serial.println(Pin);
+	
 	Serial.println(duration);
-	// time2cm(duration);
-	// Serial.print("cm = ");
-	// Serial.println(cm);
+	payload[0] = inc + 3;
+        payload[1] = duration >> 8 & 0xff;
+        payload[2] = duration & 0xff; 
+	xbee.send(tx);
 	inc++;
-//	if(inc == 3)
-//	{
-//		inc = 0;
-//	}
-//	else
-//	{
-//		inc = inc;
-//	}
+
 	delay(1);
 
 }
