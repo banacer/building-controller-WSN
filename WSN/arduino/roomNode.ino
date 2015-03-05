@@ -2,8 +2,10 @@
 #include <TF>
 #include "kSeries.h"
 #include <dht.h>
+//#include "DHT.h"
 
-dht DHT;
+dht DHT1(DHT22_PIN_1);
+dht DHT2(DHT22_PIN_2);
 kSeries K_30(12,13);
 #define DHT22_PIN 5
 
