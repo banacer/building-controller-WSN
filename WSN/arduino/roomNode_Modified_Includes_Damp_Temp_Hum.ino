@@ -93,51 +93,51 @@ void loop()
 		    switch (data[0]) {
 
 		        case 116: // 116 --> ascii decimal equivalent of t
-		          	temp1 = getTemperature1();
-                  	payload[0] = highByte(temp1);
-					payload[1] = lowByte(temp1);
+	          	temp1 = getTemperature1();
+              	payload[0] = highByte(temp1);
+				payload[1] = lowByte(temp1);
 
-                  	temp2 = getTemperature2();
-                  	payload[2] = highByte(temp2);
-                  	payload[3] = lowByte(temp2);
+              	temp2 = getTemperature2();
+              	payload[2] = highByte(temp2);
+              	payload[3] = lowByte(temp2);
 
-					tx.setAddress16(remoteID);
-					xbee.send(tx); 
+				tx.setAddress16(remoteID);
+				xbee.send(tx); 
 	            break;
 
 		        case 104: // 104 --> ascii decimal equivalent of h
-		          	humid1 = getHumidity1();
-					payload[0] = highByte(humid1);
-					payload[1] = lowByte(humid1);
+	          	humid1 = getHumidity1();
+				payload[0] = highByte(humid1);
+				payload[1] = lowByte(humid1);
 
-					humid2 = getHumidity2();
-					payload[2] = highByte(humid2);
-					payload[3] = lowByte(humid2);
+				humid2 = getHumidity2();
+				payload[2] = highByte(humid2);
+				payload[3] = lowByte(humid2);
 
-					tx.setAddress16(remoteID);
-					xbee.send(tx);
+				tx.setAddress16(remoteID);
+				xbee.send(tx);
 	          	break;
 
 	          	case 100: // 100 --> ascii decimal equivalent of d
-	          		if(data[1] < 0 || data[1] > 100)
-	      			{
-		   				Serial.print("Control Value OUT OF BOUNDS");
-		   				payload[4] = 0;
-	      			}
-	      			else
-	      			{
-					   payload[4] = cntrlDamper(data[1]);
-					   tx.setAddress16(remoteID);
-					   xbee.send(tx);
-              		}
+          		if(data[1] < 0 || data[1] > 100)
+      			{
+	   				Serial.print("Control Value OUT OF BOUNDS");
+	   				payload[4] = 0;
+      			}
+      			else
+      			{
+				   payload[4] = cntrlDamper(data[1]);
+				   tx.setAddress16(remoteID);
+				   xbee.send(tx);
+          		}
 	          	break;
 
 		        case 99: // 99 --> ascii decimal equivalent of h
 		          //int co2 = getCO2();
-		          break;
+	          	break;
 
 		        default:
-		          break;
+		        break;
 		    }
 		}
 
